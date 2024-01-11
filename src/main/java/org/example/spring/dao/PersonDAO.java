@@ -24,9 +24,14 @@ public class PersonDAO {
 
     public Person show(int id) {
         return people.stream()
-                .filter(person -> person.id() == id)
+                .filter(person -> person.getId() == id)
                 .findFirst()
                 .orElse(null);
+    }
+
+    public void save(Person person){
+        person.setId(PEOPLE_COUNT++);
+        people.add(person);
     }
 
 }
