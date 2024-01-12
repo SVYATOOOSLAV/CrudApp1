@@ -7,7 +7,7 @@
 <body>
     <form th:method="POST" th:action="@{/people}" th:object="${person}">
         <label for="name">Enter your name: </label>
-        <input type="text" th:field="*{name}" id="name">
+        <input type="text" th:field="*{name}" id="name" autocomplete="off">
 
         <br>
 

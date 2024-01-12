@@ -29,9 +29,19 @@ public class PersonDAO {
                 .orElse(null);
     }
 
-    public void save(Person person){
+    public void save(Person person) {
         person.setId(PEOPLE_COUNT++);
         people.add(person);
     }
 
+    public void update(int id, Person person) {
+        Person newPerson = show(id);
+        newPerson.setName(person.getName());
+    }
+
+    public void delete(int id){
+//        Person deletedPerson = show(id);
+//        people.remove(deletedPerson);
+        people.removeIf(person -> person.getId() == id);
+    }
 }
