@@ -2,16 +2,26 @@ package org.example.spring.models;
 
 import java.util.Objects;
 
-public final class Person {
+public abstract class Person {
     private int id;
+    private String surname;
     private String name;
 
     public Person(){}
 
-    public Person(int id, String name){
+    public Person(int id, String surname, String name){
         this.id = id;
+        this.surname = surname;
         this.name = name;
     }
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

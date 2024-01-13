@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Person</title>
+</head>
+<body>
+    All students:
+    <div th:each="student : ${students}">
+        <p th:text="${student.getId()} + ' ' + ${student.getSurname()} + ' ' + ${student.getName()}">value</p>
+    </div>
+
+    <br>
+
+    Teacher's students:
+    <div th:each="student : ${teacher.getListOfStudent()}">
+        <p th:text="${student.getSurname()} + ' ' + ${student.getName()}">value</p>
+    </div>
+
+    <br>
+
+    <form th:method="PATCH" th:action="@{/teachers/{id}(id=${teacher.getId()})}">
+    <label for="studID">Enter your student's id: </label>
+    <input type="text" th:field="*{teacher.studentID}" id="studID" autocomplete="off">
+
+    <br>
+
+    <input type="submit" value="Update teacher's student!">
+    </form>
+</body>
+</html>

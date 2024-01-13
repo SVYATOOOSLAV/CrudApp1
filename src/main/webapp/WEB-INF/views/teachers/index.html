@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>All teachers</title>
+</head>
+<body>
+    <div th:each="teacher : ${teachers}">
+        <a th:href="@{/teachers/{tempId}(tempId=${teacher.getId()})}"
+           th:text="${teacher.getSurname()} + ' ' + ${teacher.getName()}">teacher</a>
+    </div>
+
+    <hr>
+    <form method="GET" th:action="@{/teachers/new}">
+        <button>Create new teacher</button>
+    </form>
+
+</body>
+</html>

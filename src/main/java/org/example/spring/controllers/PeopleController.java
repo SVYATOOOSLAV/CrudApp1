@@ -1,14 +1,19 @@
 package org.example.spring.controllers;
 
 import org.example.spring.dao.PersonDAO;
+import org.example.spring.models.Student;
+import org.example.spring.models.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.example.spring.models.Person;
 
+import java.util.List;
+import java.util.Map;
+
 @Controller
-@RequestMapping("/people")
+@RequestMapping("/teachers")
 public class PeopleController {
     private final PersonDAO personDAO;
     @Autowired
@@ -17,52 +22,50 @@ public class PeopleController {
     }
     @GetMapping()
     public String index(Model model){
-        // Get all people from DAO and transfer it to the view for display
-        model.addAttribute("people", personDAO.index());
-        return "people/index";
+        model.addAttribute("teachers", personDAO.index());
+        return "teachers/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model){
-        // Get person from DAO with id and transfer it to the view for display
-        model.addAttribute("person", personDAO.show(id));
-        return "people/show";
+        model.addAttribute("teacher", personDAO.show(id));
+        return "teachers/show";
     }
 
-//    @GetMapping("/new")
-//    public String newPerson(Model model){
-//        //Создаем модель для того, чтобы передать ее в форму для заполнения
-//        model.addAttribute("person", new Person());
-//        return "people/new";
-//    }
-
+    // Create empty teacher
     @GetMapping("/new")
-    public String newPerson(@ModelAttribute("person") Person person){
-        return "people/new";
+    public String newTeacher(@ModelAttribute("teacher") Teacher teacher){
+        return "teachers/new";
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("person") Person person){
-        personDAO.save(person);
-        return "redirect:/people";
+    public String create(@ModelAttribute("teacher") Teacher teacher){
+        personDAO.save(teacher);
+        return "redirect:/teachers";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id, Model model){
-        model.addAttribute("person", personDAO.show(id));
-        return "people/edit";
+        model.addAttribute("teacher", personDAO.show(id));
+        model.addAttribute("students", personDAO.getStudents());
+        return "teachers/edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") Person person, @PathVariable("id") int id){
-        personDAO.update(id, person);
-        return "redirect:/people";
+    public String update(@PathVariable("id") int id, @ModelAttribute("teacher") Teacher teacher){
+        List<Student> list = teacher.getListOfStudent();
+        teacher.addStudents(personDAO.getStudents().stream()
+                .filter(student -> student.getId() == teacher.getStudentID())
+                .findFirst()
+                .orElse(null)
+        );
+        return "redirect:/teachers/" + id + "/edit";
     }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id){
-        personDAO.delete(id);
-        return "redirect:/people";
-    }
+//
+//    @DeleteMapping("/{id}")
+//    public String delete(@PathVariable("id") int id){
+//        personDAO.delete(id);
+//        return "redirect:/people";
+//    }
 
 }
