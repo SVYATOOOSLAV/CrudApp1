@@ -38,6 +38,15 @@ public class PersonDAO {
     public List<Student> getStudents() {
         return students;
     }
+    public Student getNeededStudent(int id){
+        return students.stream()
+                .filter(stud -> stud.getId() == id)
+                .findFirst().orElse(null);
+    }
+    public void addStudent(Student student){
+        student.setId(PEOPLE_COUNT++);
+        students.add(student);
+    }
 
 
     public List<Teacher> index() {
@@ -56,14 +65,14 @@ public class PersonDAO {
         teachers.add(teacher);
     }
 
-//    public void update(int id, Teacher teacher) {
-//        Teacher newTeacher = show(id);
-//        newTeacher.setName(teacher.getName());
-//    }
-//
-//    public void delete(int id){
-////        Person deletedPerson = show(id);
-////        people.remove(deletedPerson);
-//        people.removeIf(person -> person.getId() == id);
-//    }
+    public void delete(int id){
+        teachers.removeIf(teacher -> teacher.getId() == id);
+    }
+
+    public void deleteStudent(Student student){
+        students.remove(student);
+        teachers.forEach(teacher -> {
+            teacher.getListOfStudent().removeIf(stud -> stud.equals(student));
+        });
+    }
 }

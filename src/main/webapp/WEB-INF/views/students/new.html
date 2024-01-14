@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>New Student</title>
+</head>
+<body>
+    <form th:method="POST" th:action="@{/students}" th:object="${student}">
+        <label for="surname">Input student's surname</label>
+        <input type="text" id="surname" th:field="*{surname}" autocomplete="off">
+        <br>
+        <label for="name">Input student's name</label>
+        <input type="text" id="name" th:field="*{name}" autocomplete="off">
+        <br><hr>
+        <input type="submit" value="Create student!">
+        <hr>
+    </form>
+    <form method="get" action="/students">
+        <input type="submit" value="Go Back"/>
+    </form>
+    <hr>
+</body>
+</html>

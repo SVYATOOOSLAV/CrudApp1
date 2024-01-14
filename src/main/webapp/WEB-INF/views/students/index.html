@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>All Students</title>
+</head>
+<body>
+    All students: <br>
+    <div th:each="student : ${students}">
+        <a th:href="@{/students/{tempId}(tempId=${student.getId()})}"
+           th:text="${student.getSurname()} + ' ' + ${student.getName()}">student</a>
+    </div>
+    <hr>
+    <form method="get" th:action="@{/students/new}">
+        <button>Create a new student</button>
+    </form>
+    <hr>
+    <form method="get" action="/">
+        <input type="submit" value="Go Back"/>
+    </form>
+    <hr>
+
+</body>
+</html>

@@ -5,6 +5,7 @@
     <title>All teachers</title>
 </head>
 <body>
+    All teachers: <br>
     <div th:each="teacher : ${teachers}">
         <a th:href="@{/teachers/{tempId}(tempId=${teacher.getId()})}"
            th:text="${teacher.getSurname()} + ' ' + ${teacher.getName()}">teacher</a>
@@ -14,6 +15,14 @@
     <form method="GET" th:action="@{/teachers/new}">
         <button>Create new teacher</button>
     </form>
+
+    <hr>
+
+    <form method="get" action="/">
+        <input type="submit" value="Go Back"/>
+    </form>
+
+    <hr>
 
 </body>
 </html>

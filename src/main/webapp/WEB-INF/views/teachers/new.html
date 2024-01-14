@@ -2,19 +2,23 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>New Person</title>
+    <title>New Teacher</title>
 </head>
 <body>
     <form th:method="POST" th:action="@{/teachers}" th:object="${teacher}">
         <label for="surname">Enter teacher's surname: </label>
         <input type="text" th:field="*{surname}" id="surname" autocomplete="off">
-        <br>
+        <br><br>
         <label for="name">Enter teacher's name:</label>
         <input type="text" th:field="*{name}" id="name" autocomplete="off">
 
-        <br>
+        <br><hr>
 
         <input type="submit" value="Create!">
+        <hr>
+    </form>
+    <form method="get" action="/teachers">
+        <input type="submit" value="Go Back"/>
     </form>
 </body>
 </html>

@@ -2,30 +2,44 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Person</title>
+    <title th:text="Edit + ' ' + ${teacher.getSurname()} + ' ' + ${teacher.getName()}">Edit</title>
 </head>
 <body>
-    All students:
-    <div th:each="student : ${students}">
-        <p th:text="${student.getId()} + ' ' + ${student.getSurname()} + ' ' + ${student.getName()}">value</p>
-    </div>
+    <form th:method="PATCH" th:action="@{/teachers/{id}(id=${teacher.getId()})}" th:object="${teacher}">
+    <label for="surname">Teacher's surname</label>
+    <input type="text" th:field="*{surname}" id="surname" autocomplete="off">
 
     <br>
 
+    <label for="name">Teacher's name</label>
+    <input type="text" th:field="*{name}" id="name" autocomplete="off">
+
+    <br><br>
     Teacher's students:
     <div th:each="student : ${teacher.getListOfStudent()}">
-        <p th:text="${student.getSurname()} + ' ' + ${student.getName()}">value</p>
+       <a th:text="${student.getSurname()} + ' ' + ${student.getName()}">value</a>
     </div>
 
     <br>
 
-    <form th:method="PATCH" th:action="@{/teachers/{id}(id=${teacher.getId()})}">
+    All students:
+    <div th:each="student : ${students}">
+       <a th:text="${student.getId()} + ' ' + ${student.getSurname()} + ' ' + ${student.getName()}"
+            th:href="@{/students/{id}(id=${student.getId()})}">value</a>
+    </div>
+
+    <br><hr>
+
     <label for="studID">Enter your student's id: </label>
-    <input type="text" th:field="*{teacher.studentID}" id="studID" autocomplete="off">
+    <input type="number" th:field="*{studentID}" id="studID" autocomplete="off"/>
 
-    <br>
+    <br><hr>
 
-    <input type="submit" value="Update teacher's student!">
+    <input type="submit" value="Update info!"/>
+    <hr>
+    </form>
+    <form method="get" th:action="@{/teachers/{id}(id=${teacher.getId()})}">
+        <input type="submit" value="Go Back"/>
     </form>
 </body>
 </html>
