@@ -12,10 +12,10 @@ public class PersonDAO {
     private final List<Person> people = new ArrayList<>();
 
     {
-        people.add(new Person(PEOPLE_COUNT++, "Jim"));
-        people.add(new Person(PEOPLE_COUNT++, "Tom"));
-        people.add(new Person(PEOPLE_COUNT++, "Bob"));
-        people.add(new Person(PEOPLE_COUNT++, "Mike"));
+        people.add(new Person(PEOPLE_COUNT++, "Jim", 24, "jim@mail.ru"));
+        people.add(new Person(PEOPLE_COUNT++, "Tom", 52, "tom@mail.ru"));
+        people.add(new Person(PEOPLE_COUNT++, "Bob", 18, "bob@mail.ru"));
+        people.add(new Person(PEOPLE_COUNT++, "Mike", 34, "mike@mail.ru"));
     }
 
     public List<Person> index() {
@@ -36,12 +36,12 @@ public class PersonDAO {
 
     public void update(int id, Person person) {
         Person newPerson = show(id);
+        newPerson.setAge(person.getAge());
         newPerson.setName(person.getName());
+        newPerson.setEmail(person.getEmail());
     }
 
     public void delete(int id){
-//        Person deletedPerson = show(id);
-//        people.remove(deletedPerson);
         people.removeIf(person -> person.getId() == id);
     }
 }
