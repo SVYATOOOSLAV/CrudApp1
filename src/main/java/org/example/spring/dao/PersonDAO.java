@@ -17,18 +17,18 @@ public class PersonDAO {
     private final List<Student> students = new ArrayList<>();
 
     {
-        students.add(new Student(PEOPLE_COUNT++, "Smith", "John"));
-        students.add(new Student(PEOPLE_COUNT++, "Johnson", "Emily"));
-        students.add(new Student(PEOPLE_COUNT++, "Brown", "Michael"));
+        students.add(new Student(PEOPLE_COUNT++, "Smith", "John", 12, "john@gmail.com"));
+        students.add(new Student(PEOPLE_COUNT++, "Johnson", "Emily",13, "emily@gmail.com" ));
+        students.add(new Student(PEOPLE_COUNT++, "Brown", "Michael", 14, "michael@gmail.com"));
     }
 
     private final List<Teacher> teachers = new ArrayList<>();
 
     {
-        Teacher teacher1 = new Teacher(PEOPLE_COUNT++, "Tomson", "Jim");
+        Teacher teacher1 = new Teacher(PEOPLE_COUNT++, "Tomson", "Jim", 30, "jim@gmail.com");
         teacher1.addStudents(students.get(0), students.get(1));
 
-        Teacher teacher2 = new Teacher(PEOPLE_COUNT++, "Derden", "Tayler");
+        Teacher teacher2 = new Teacher(PEOPLE_COUNT++, "Derden", "Tayler", 37, "tayler@gmail.com");
         teacher2.addStudents(students.get(1), students.get(2));
 
         teachers.add(teacher1);
@@ -47,7 +47,6 @@ public class PersonDAO {
         student.setId(PEOPLE_COUNT++);
         students.add(student);
     }
-
 
     public List<Teacher> index() {
         return teachers;

@@ -1,5 +1,7 @@
 package org.example.spring.models;
 
+import jakarta.validation.constraints.Min;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.stream.Stream;
 
 public class Teacher extends Person {
     private final List<Student> listOfStudent = new ArrayList<>();
+    @Min(value = 0, message = "Id of student not found")
     private int studentID;
 
     public void setStudentID(int studentID) {
@@ -24,8 +27,8 @@ public class Teacher extends Person {
     public Teacher() {
     }
 
-    public Teacher(int id, String surname, String name) {
-        super(id, surname, name);
+    public Teacher(int id, String surname, String name,  int age, String email) {
+        super(id, surname, name, age, email);
     }
 
     public void addStudents(Student... students) {

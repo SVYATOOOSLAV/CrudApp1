@@ -5,7 +5,8 @@
     <title th:text="Student + ' ' + ${student.getSurname()} + ' ' + ${student.getName()}">Student</title>
 </head>
 <body>
-    <div th:text="${student.getId()} + ' ' + ${student.getSurname()} + ' ' + ${student.getName()}">student</div>
+    <div th:text="'Student: ' + ${student.getSurname()} + ' ' + ${student.getName()}">NameAndSurname</div>
+    <div th:text="'Email: ' + ${student.getEmail()}">Email</div>
     <hr>
     <form method="get" th:action="@{/students/{id}/edit(id=${student.getId()})}">
         <button>Edit student</button>

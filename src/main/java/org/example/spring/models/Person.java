@@ -1,18 +1,32 @@
 package org.example.spring.models;
 
+import jakarta.validation.constraints.*;
+
 import java.util.Objects;
 
 public abstract class Person {
     private int id;
+    @NotBlank(message = "Empty surname")
+    @Size(min = 0, max = 100, message = "Surname is too big")
     private String surname;
+    @NotBlank(message = "Empty name")
+    @Size(min = 0, max = 100, message = "Name is too big")
     private String name;
+    @Min(value = 0, message = "You can not use the negative number")
+    @Max(value = 80, message = "You can not use the number over 80")
+    private int age;
+    @NotBlank(message = "Empty email")
+    @Email(message = "It isn't the email")
+    private String email;
 
     public Person(){}
 
-    public Person(int id, String surname, String name){
+    public Person(int id, String surname, String name, int age, String email){
         this.id = id;
         this.surname = surname;
         this.name = name;
+        this.age = age;
+        this.email = email;
     }
     public String getSurname() {
         return surname;
@@ -36,6 +50,22 @@ public abstract class Person {
 
     public String getName() {
         return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

@@ -8,7 +8,7 @@
     All teachers: <br>
     <div th:each="teacher : ${teachers}">
         <a th:href="@{/teachers/{tempId}(tempId=${teacher.getId()})}"
-           th:text="${teacher.getSurname()} + ' ' + ${teacher.getName()}">teacher</a>
+           th:text="${teacher.getSurname()} + ' ' + ${teacher.getName()} + ', ' + ${teacher.getAge()}">teacher</a>
     </div>
 
     <hr>

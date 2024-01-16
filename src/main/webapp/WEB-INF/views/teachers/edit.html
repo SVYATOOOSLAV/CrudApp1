@@ -8,23 +8,32 @@
     <form th:method="PATCH" th:action="@{/teachers/{id}(id=${teacher.getId()})}" th:object="${teacher}">
     <label for="surname">Teacher's surname</label>
     <input type="text" th:field="*{surname}" id="surname" autocomplete="off">
-
+    <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname</div>
     <br>
-
     <label for="name">Teacher's name</label>
     <input type="text" th:field="*{name}" id="name" autocomplete="off">
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name</div>
+    <br>
+    <label for="age">Teacher's age</label>
+    <input type="text" th:field="*{age}" id="age" autocomplete="off">
+    <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age</div>
+    <br>
+    <label for="email">Teacher's email</label>
+    <input type="text" th:field="*{email}" id="email" autocomplete="off">
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email</div>
+    <br><hr>
 
-    <br><br>
     Teacher's students:
     <div th:each="student : ${teacher.getListOfStudent()}">
-       <a th:text="${student.getSurname()} + ' ' + ${student.getName()}">value</a>
+       <a th:text="${student.getSurname()} + ' ' + ${student.getName()} + ', ' + ${student.getAge()}">value</a>
     </div>
 
     <br>
 
     All students:
     <div th:each="student : ${students}">
-       <a th:text="${student.getId()} + ' ' + ${student.getSurname()} + ' ' + ${student.getName()}"
+       <a th:text="${student.getId()} + ' ' + ${student.getSurname()} + ' '
+                    + ${student.getName()} + ', ' + ${student.getAge()}"
             th:href="@{/students/{id}(id=${student.getId()})}">value</a>
     </div>
 
@@ -32,7 +41,7 @@
 
     <label for="studID">Enter your student's id: </label>
     <input type="number" th:field="*{studentID}" id="studID" autocomplete="off"/>
-
+    <div style="color:red" th:if="${#fields.hasErrors('studentID')}" th:errors="*{studentID}">Email</div>
     <br><hr>
 
     <input type="submit" value="Update info!"/>

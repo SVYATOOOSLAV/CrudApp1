@@ -8,10 +8,10 @@
     All students: <br>
     <div th:each="student : ${students}">
         <a th:href="@{/students/{tempId}(tempId=${student.getId()})}"
-           th:text="${student.getSurname()} + ' ' + ${student.getName()}">student</a>
+           th:text="${student.getSurname()} + ' ' + ${student.getName()} + ', ' + ${student.getAge()}">student</a>
     </div>
     <hr>
-    <form method="get" th:action="@{/students/new}">
+    <form method="get" action="students/new">
         <button>Create a new student</button>
     </form>
     <hr>

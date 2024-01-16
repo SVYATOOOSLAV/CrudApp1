@@ -6,13 +6,23 @@
 </head>
 <body>
     <form th:method="POST" th:action="@{/students}" th:object="${student}">
-        <label for="surname">Input student's surname</label>
-        <input type="text" id="surname" th:field="*{surname}" autocomplete="off">
+        <label for="surname">Student's surname</label>
+        <input type="text" th:field="*{surname}" id="surname" autocomplete="off">
+        <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname</div>
         <br>
-        <label for="name">Input student's name</label>
-        <input type="text" id="name" th:field="*{name}" autocomplete="off">
+        <label for="name">Student's name</label>
+        <input type="text" th:field="*{name}" id="name" autocomplete="off">
+        <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name</div>
+        <br>
+        <label for="age">Student's age</label>
+        <input type="text" th:field="*{age}" id="age" autocomplete="off">
+        <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age</div>
+        <br>
+        <label for="email">Student's email</label>
+        <input type="text" th:field="*{email}" id="email" autocomplete="off">
+        <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email</div>
         <br><hr>
-        <input type="submit" value="Create student!">
+        <input type="submit" value="Create Student!">
         <hr>
     </form>
     <form method="get" action="/students">

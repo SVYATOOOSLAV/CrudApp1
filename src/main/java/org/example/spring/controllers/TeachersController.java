@@ -1,11 +1,13 @@
 package org.example.spring.controllers;
 
+import jakarta.validation.Valid;
 import org.example.spring.dao.PersonDAO;
 import org.example.spring.models.Student;
 import org.example.spring.models.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,10 +41,11 @@ public class TeachersController {
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("teacher") Teacher teacher) {
-        if(!teacher.getName().isEmpty() && !teacher.getSurname().isEmpty()){
-            personDAO.save(teacher);
+    public String create(@ModelAttribute("teacher") @Valid Teacher teacher, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "teachers/new";
         }
+        personDAO.save(teacher);
         return "redirect:/teachers";
     }
 
@@ -52,21 +55,28 @@ public class TeachersController {
         model.addAttribute("students", personDAO.getStudents());
         return "teachers/edit";
     }
+
     @PatchMapping("/{id}")
-    public String updateTeacher(@ModelAttribute("teacher") Teacher newTeacher, @PathVariable("id") int id) {
+    public String updateTeacher(@ModelAttribute("teacher") @Valid Teacher newTeacher,
+                                BindingResult bindingResult, @PathVariable("id") int id) {
+        if (bindingResult.hasErrors()) {
+            return "teachers/edit";
+        }
         Teacher oldTeacher = personDAO.index().stream()
                 .filter(teacher -> teacher.getId() == id)
                 .findFirst().orElse(null);
-        if (oldTeacher != null) {
-            oldTeacher.setSurname(newTeacher.getSurname());
-            oldTeacher.setName(newTeacher.getName());
-            oldTeacher.setStudentID(newTeacher.getStudentID());
-            oldTeacher.addIfAbsent(personDAO.getStudents().stream());
-        }
-        return "redirect:/teachers/" + id + "/edit";
+
+        oldTeacher.setSurname(newTeacher.getSurname());
+        oldTeacher.setName(newTeacher.getName());
+        oldTeacher.setAge(newTeacher.getAge());
+        oldTeacher.setStudentID(newTeacher.getStudentID());
+        oldTeacher.addIfAbsent(personDAO.getStudents().stream());
+
+        return "redirect:/teachers/" + id;
     }
+
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id){
+    public String delete(@PathVariable("id") int id) {
         personDAO.delete(id);
         return "redirect:/teachers";
     }

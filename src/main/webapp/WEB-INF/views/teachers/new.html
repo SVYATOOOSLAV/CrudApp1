@@ -6,14 +6,22 @@
 </head>
 <body>
     <form th:method="POST" th:action="@{/teachers}" th:object="${teacher}">
-        <label for="surname">Enter teacher's surname: </label>
+        <label for="surname">Teacher's surname</label>
         <input type="text" th:field="*{surname}" id="surname" autocomplete="off">
-        <br><br>
-        <label for="name">Enter teacher's name:</label>
+        <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname</div>
+        <br>
+        <label for="name">Teacher's name</label>
         <input type="text" th:field="*{name}" id="name" autocomplete="off">
-
+        <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name</div>
+        <br>
+        <label for="age">Teacher's age</label>
+        <input type="text" th:field="*{age}" id="age" autocomplete="off">
+        <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age</div>
+        <br>
+        <label for="email">Teacher's email</label>
+        <input type="text" th:field="*{email}" id="email" autocomplete="off">
+        <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email</div>
         <br><hr>
-
         <input type="submit" value="Create!">
         <hr>
     </form>
