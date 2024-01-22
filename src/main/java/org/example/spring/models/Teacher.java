@@ -1,6 +1,8 @@
 package org.example.spring.models;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import org.example.spring.dao.PersonDAO;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +11,7 @@ import java.util.stream.Stream;
 
 public class Teacher extends Person {
     private final List<Student> listOfStudent = new ArrayList<>();
-    @Min(value = 0, message = "Id of student not found")
+    @Min(value = 1, message = "Id of student not found")
     private int studentID;
 
     public void setStudentID(int studentID) {
@@ -27,7 +29,7 @@ public class Teacher extends Person {
     public Teacher() {
     }
 
-    public Teacher(int id, String surname, String name,  int age, String email) {
+    public Teacher(int id, String surname, String name, int age, String email) {
         super(id, surname, name, age, email);
     }
 
@@ -37,8 +39,21 @@ public class Teacher extends Person {
 
     public void addIfAbsent(Stream<Student> streamOfAllStudent) {
         Student student = streamOfAllStudent.filter(stud -> stud.getId() == studentID).findFirst().orElse(null);
-        if (student != null && !listOfStudent.contains(student)) {
+        if (student == null) {
+            throw new IllegalArgumentException("Invalid student id");
+        }
+        if (!listOfStudent.contains(student)) {
             listOfStudent.add(student);
         }
+    }
+
+    public void removeIfAvailable(Stream<Student> streamOfAllStudent) {
+        Student student = streamOfAllStudent.filter(stud -> stud.getId() == studentID).findFirst().orElse(null);
+        if (student == null) {
+            throw new IllegalArgumentException("Invalid student id");
+        }
+
+        listOfStudent.remove(student);
+
     }
 }

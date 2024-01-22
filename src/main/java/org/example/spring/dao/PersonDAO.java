@@ -74,4 +74,5 @@ public class PersonDAO {
             teacher.getListOfStudent().removeIf(stud -> stud.equals(student));
         });
     }
+    
 }

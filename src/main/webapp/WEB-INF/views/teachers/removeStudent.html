@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Remove Student from list</title>
+</head>
+<body>
+    <div th:text="'Teacher: ' + ${teacher.getSurname()} + ' ' + ${teacher.getName()} + ', ' + ${teacher.getAge()}">
+        teacher</div>
+    <hr>
+    Teacher's students:
+    <div th:each="student : ${teacher.getListOfStudent()}">
+        <a th:text="${student.getSurname()} + ' ' + ${student.getName()} + ', ' + ${student.getAge()}">value</a>
+    </div>
+
+    <hr><br>
+
+    All students:
+    <div th:each="student : ${students}">
+        <a th:text="${student.getId()} + ' ' + ${student.getSurname()} + ' '
+                            + ${student.getName()} + ', ' + ${student.getAge()}"
+           th:href="@{/students/{id}(id=${student.getId()})}">value</a>
+    </div>
+
+    <br><hr>
+    <form th:method="PATCH" th:action="@{/teachers/{id}/removeStudent(id=${teacher.getId()})}" th:object="${teacher}">
+        <label for="studID">Enter your student's id: </label>
+        <input type="number" th:field="*{studentID}" id="studID" autocomplete="off"/>
+        <div style="color:red" th:if="${#fields.hasErrors('studentID')}" th:errors="*{studentID}">studentID</div>
+        <br><hr>
+        <input type="submit" value="Remove Student"/>
+        <hr>
+    </form>
+    <form method="get" th:action="@{/teachers/{id}/edit(id=${teacher.getId()})}">
+        <input type="submit" value="Go Back"/>
+    </form>
+</body>
+</html>

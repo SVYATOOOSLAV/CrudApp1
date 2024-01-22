@@ -22,33 +22,20 @@
     <input type="text" th:field="*{email}" id="email" autocomplete="off">
     <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email</div>
     <br><hr>
-
-    Teacher's students:
-    <div th:each="student : ${teacher.getListOfStudent()}">
-       <a th:text="${student.getSurname()} + ' ' + ${student.getName()} + ', ' + ${student.getAge()}">value</a>
-    </div>
-
-    <br>
-
-    All students:
-    <div th:each="student : ${students}">
-       <a th:text="${student.getId()} + ' ' + ${student.getSurname()} + ' '
-                    + ${student.getName()} + ', ' + ${student.getAge()}"
-            th:href="@{/students/{id}(id=${student.getId()})}">value</a>
-    </div>
-
-    <br><hr>
-
-    <label for="studID">Enter your student's id: </label>
-    <input type="number" th:field="*{studentID}" id="studID" autocomplete="off"/>
-    <div style="color:red" th:if="${#fields.hasErrors('studentID')}" th:errors="*{studentID}">Email</div>
-    <br><hr>
-
-    <input type="submit" value="Update info!"/>
-    <hr>
+    <input type="submit" value="Update teacher!">
     </form>
+    <hr>
+    <form method="get" th:action="@{/teachers/{id}/edit/addStudent(id=${teacher.getId()})}">
+        <input type="submit" value="Add students in teacher's list">
+    </form>
+    <hr>
+    <form method="get" th:action="@{/teachers/{id}/edit/removeStudent(id=${teacher.getId()})}">
+        <input type="submit" value="Remove students from teacher's list">
+    </form>
+    <hr>
     <form method="get" th:action="@{/teachers/{id}(id=${teacher.getId()})}">
         <input type="submit" value="Go Back"/>
     </form>
+
 </body>
 </html>

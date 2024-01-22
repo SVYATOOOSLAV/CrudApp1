@@ -62,17 +62,44 @@ public class TeachersController {
         if (bindingResult.hasErrors()) {
             return "teachers/edit";
         }
-        Teacher oldTeacher = personDAO.index().stream()
-                .filter(teacher -> teacher.getId() == id)
-                .findFirst().orElse(null);
-
+        Teacher oldTeacher = personDAO.show(id);
         oldTeacher.setSurname(newTeacher.getSurname());
         oldTeacher.setName(newTeacher.getName());
         oldTeacher.setAge(newTeacher.getAge());
-        oldTeacher.setStudentID(newTeacher.getStudentID());
-        oldTeacher.addIfAbsent(personDAO.getStudents().stream());
 
         return "redirect:/teachers/" + id;
+    }
+
+    @GetMapping("/{id}/edit/addStudent")
+    public String addStudentToList(@PathVariable("id") int id, Model model) {
+        model.addAttribute("teacher", personDAO.show(id));
+        model.addAttribute("students", personDAO.getStudents());
+        return "teachers/addStudent";
+    }
+
+    @PatchMapping("/{id}/addStudent")
+    public String addStudentToList(@PathVariable("id") int id,
+                                   @ModelAttribute("teacher") Teacher teacher) {
+        Teacher oldTeacher = personDAO.show(id);
+        oldTeacher.setStudentID(teacher.getStudentID());
+        oldTeacher.addIfAbsent(personDAO.getStudents().stream());
+        return "redirect:/teachers/" + id + "/edit/addStudent";
+    }
+
+    @GetMapping("/{id}/edit/removeStudent")
+    public String removeStudentFromList(@PathVariable("id") int id, Model model) {
+        model.addAttribute("teacher", personDAO.show(id));
+        model.addAttribute("students", personDAO.getStudents());
+        return "teachers/removeStudent";
+    }
+
+    @PatchMapping("/{id}/removeStudent")
+    public String removeStudentFromList(@PathVariable("id") int id,
+                                   @ModelAttribute("teacher") Teacher teacher) {
+        Teacher oldTeacher = personDAO.show(id);
+        oldTeacher.setStudentID(teacher.getStudentID());
+        oldTeacher.removeIfAvailable(personDAO.getStudents().stream());
+        return "redirect:/teachers/" + id + "/edit/removeStudent";
     }
 
     @DeleteMapping("/{id}")

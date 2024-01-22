@@ -1,6 +1,8 @@
 package org.example.spring.models;
 
 import jakarta.validation.constraints.*;
+import org.example.spring.dao.PersonDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
 
