@@ -33,12 +33,6 @@ public class PeopleController {
         return "people/show";
     }
 
-//    @GetMapping("/new")
-//    public String newPerson(Model model){
-//        //Создаем модель для того, чтобы передать ее в форму для заполнения
-//        model.addAttribute("person", new Person());
-//        return "people/new";
-//    }
 
     @GetMapping("/new")
     public String newPerson(@ModelAttribute("person") Person person) {
