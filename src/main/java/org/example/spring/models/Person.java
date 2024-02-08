@@ -18,7 +18,7 @@ public abstract class Person {
     @Max(value = 80, message = "You can not use the number over 80")
     private int age;
     @NotBlank(message = "Empty email")
-    @Email(message = "It isn't the email")
+    @Email(message = "It is not the email")
     private String email;
 
     public Person(){}

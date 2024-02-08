@@ -21,13 +21,13 @@ public class StudentsController {
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("students", personDAO.getStudents());
+        model.addAttribute("students", personDAO.studentDAO.index());
         return "students/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        Student student = personDAO.getNeededStudent(id);
+        Student student = personDAO.studentDAO.show(id);
         model.addAttribute("student", student);
         return "students/show";
     }
@@ -39,16 +39,16 @@ public class StudentsController {
 
     @PostMapping()
     public String create(@ModelAttribute("student") @Valid Student student, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "students/new";
         }
-        personDAO.addStudent(student);
+        personDAO.studentDAO.save(student);
         return "redirect:/students";
     }
 
     @GetMapping("/{id}/edit")
     public String editStudent(@PathVariable("id") int id, Model model) {
-        Student neededStudent = personDAO.getNeededStudent(id);
+        Student neededStudent = personDAO.studentDAO.show(id);
         model.addAttribute("student", neededStudent);
         return "students/edit";
     }
@@ -56,21 +56,16 @@ public class StudentsController {
     @PatchMapping("/{id}")
     public String updateStudent(@ModelAttribute("student") @Valid Student student,
                                 BindingResult bindingResult, @PathVariable("id") int id) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "students/edit";
         }
-        Student neededStudent = personDAO.getNeededStudent(id);
-        neededStudent.setSurname(student.getSurname());
-        neededStudent.setName(student.getName());
-        neededStudent.setAge(student.getAge());
-        neededStudent.setEmail(student.getEmail());
+        personDAO.studentDAO.update(id, student);
         return "redirect:/students";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
-        Student neededStudent = personDAO.getNeededStudent(id);
-        personDAO.deleteStudent(neededStudent);
+        personDAO.studentDAO.delete(id);
         return "redirect:/students";
     }
 }

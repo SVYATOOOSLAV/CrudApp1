@@ -2,14 +2,18 @@ package org.example.spring.controllers;
 
 import jakarta.validation.Valid;
 import org.example.spring.dao.PersonDAO;
+import org.example.spring.dao.StudentMapper;
 import org.example.spring.models.Student;
 import org.example.spring.models.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,13 +28,16 @@ public class TeachersController {
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("teachers", personDAO.index());
+        model.addAttribute("teachers", personDAO.teacherDAO.index());
         return "teachers/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("teacher", personDAO.show(id));
+        Teacher teacher = personDAO.teacherDAO.show(id);
+        List<Student> students = personDAO.teacherDAO.getStudents(id);
+        model.addAttribute("teacher", teacher);
+        model.addAttribute("students", students);
         return "teachers/show";
     }
 
@@ -45,14 +52,13 @@ public class TeachersController {
         if (bindingResult.hasErrors()) {
             return "teachers/new";
         }
-        personDAO.save(teacher);
+        personDAO.teacherDAO.save(teacher);
         return "redirect:/teachers";
     }
 
     @GetMapping("/{id}/edit")
     public String editTeacher(@PathVariable("id") int id, Model model) {
-        model.addAttribute("teacher", personDAO.show(id));
-        model.addAttribute("students", personDAO.getStudents());
+        model.addAttribute("teacher", personDAO.teacherDAO.show(id));
         return "teachers/edit";
     }
 
@@ -62,49 +68,43 @@ public class TeachersController {
         if (bindingResult.hasErrors()) {
             return "teachers/edit";
         }
-        Teacher oldTeacher = personDAO.show(id);
-        oldTeacher.setSurname(newTeacher.getSurname());
-        oldTeacher.setName(newTeacher.getName());
-        oldTeacher.setAge(newTeacher.getAge());
-
+        personDAO.teacherDAO.update(id, newTeacher);
         return "redirect:/teachers/" + id;
     }
 
     @GetMapping("/{id}/edit/addStudent")
     public String addStudentToList(@PathVariable("id") int id, Model model) {
-        model.addAttribute("teacher", personDAO.show(id));
-        model.addAttribute("students", personDAO.getStudents());
+        model.addAttribute("teacher", personDAO.teacherDAO.show(id));
+        model.addAttribute("teacherStudents", personDAO.teacherDAO.getStudents(id));
+        model.addAttribute("students", personDAO.studentDAO.index());
         return "teachers/addStudent";
     }
 
     @PatchMapping("/{id}/addStudent")
     public String addStudentToList(@PathVariable("id") int id,
                                    @ModelAttribute("teacher") Teacher teacher) {
-        Teacher oldTeacher = personDAO.show(id);
-        oldTeacher.setStudentID(teacher.getStudentID());
-        oldTeacher.addIfAbsent(personDAO.getStudents().stream());
+        personDAO.studentDAO.updateTeacherInStudent(teacher.getNeededIdStudent(), id);
         return "redirect:/teachers/" + id + "/edit/addStudent";
     }
 
     @GetMapping("/{id}/edit/removeStudent")
     public String removeStudentFromList(@PathVariable("id") int id, Model model) {
-        model.addAttribute("teacher", personDAO.show(id));
-        model.addAttribute("students", personDAO.getStudents());
+        model.addAttribute("teacher", personDAO.teacherDAO.show(id));
+        model.addAttribute("teacherStudents", personDAO.teacherDAO.getStudents(id));
+        model.addAttribute("students", personDAO.studentDAO.index());
         return "teachers/removeStudent";
     }
 
     @PatchMapping("/{id}/removeStudent")
     public String removeStudentFromList(@PathVariable("id") int id,
                                    @ModelAttribute("teacher") Teacher teacher) {
-        Teacher oldTeacher = personDAO.show(id);
-        oldTeacher.setStudentID(teacher.getStudentID());
-        oldTeacher.removeIfAvailable(personDAO.getStudents().stream());
+        personDAO.studentDAO.removeTeacherInStudent(teacher.getNeededIdStudent());
         return "redirect:/teachers/" + id + "/edit/removeStudent";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
-        personDAO.delete(id);
+        personDAO.teacherDAO.delete(id);
         return "redirect:/teachers";
     }
 

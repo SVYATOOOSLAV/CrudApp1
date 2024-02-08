@@ -10,7 +10,7 @@
         teacher</div>
     <hr>
     Teacher's students:
-    <div th:each="student : ${teacher.getListOfStudent()}">
+    <div th:each="student : ${teacherStudents}">
         <a th:text="${student.getSurname()} + ' ' + ${student.getName()} + ', ' + ${student.getAge()}">value</a>
     </div>
 
@@ -25,12 +25,12 @@
 
     <br><hr>
     <form th:method="PATCH" th:action="@{/teachers/{id}/addStudent(id=${teacher.getId()})}" th:object="${teacher}">
-    <label for="studID">Enter your student's id: </label>
-    <input type="number" th:field="*{studentID}" id="studID" autocomplete="off"/>
-    <div style="color:red" th:if="${#fields.hasErrors('studentID')}" th:errors="*{studentID}">studentID</div>
-    <br><hr>
-    <input type="submit" value="Add Student"/>
-    <hr>
+        <label for="studID">Enter your student's id: </label>
+        <input type="number" th:field="*{neededIdStudent}" id="studID" autocomplete="off"/>
+        <div style="color:red" th:if="${#fields.hasErrors('neededIdStudent')}" th:errors="*{neededIdStudent}">studentID</div>
+        <br><hr>
+        <input type="submit" value="Add Student"/>
+        <hr>
     </form>
     <form method="get" th:action="@{/teachers/{id}/edit(id=${teacher.getId()})}">
         <input type="submit" value="Go Back"/>

@@ -9,7 +9,7 @@
     <div th:text="${teacher.getSurname()} + ' ' + ${teacher.getName()} + ', ' + ${teacher.getAge()}">teacher</div>
     <hr>
     Teacher's students:
-    <div th:each="student : ${teacher.getListOfStudent()}">
+    <div th:each="student : ${students}">
         <a th:text="${student.getSurname()} + ' ' + ${student.getName()} + ', ' + ${student.getAge()}"
             th:href="@{/students/{id}(id=${student.getId()})}">student</a>
     </div>
