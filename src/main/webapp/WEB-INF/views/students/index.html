@@ -3,9 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>All Students</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        a {
+            display: block;
+            color: #4285F4;
+            text-decoration: none;
+            margin-bottom: 5px;
+            padding: 5px;
+            border: 1px solid #4285F4;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #4285F4;
+            color: #fff;
+        }
+
+        button, input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #1A73E8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover, input[type="submit"]:hover {
+            background-color: #0F4FCF;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+        }
+    </style>
 </head>
 <body>
-    All students: <br>
+    All students <br>
     <div th:each="student : ${students}">
         <a th:href="@{/students/{tempId}(tempId=${student.getId()})}"
            th:text="${student.getSurname()} + ' ' + ${student.getName()} + ', ' + ${student.getAge()}">student</a>
