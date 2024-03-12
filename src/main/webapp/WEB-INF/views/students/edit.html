@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="Edit + ' ' + ${student.getSurname()} + ' ' + ${student.getName()}">
+        Edit Student</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        form {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            margin-bottom: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        div {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1A73E8;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <form th:method="PATCH" th:action="@{/students/{id}(id=${student.getId()})}" th:object="${student}">
+    <label for="surname">Student's surname</label>
+    <input type="text" th:field="*{surname}" id="surname" autocomplete="off">
+    <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname</div>
+    <br>
+    <label for="name">Student's name</label>
+    <input type="text" th:field="*{name}" id="name" autocomplete="off">
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name</div>
+    <br>
+    <label for="age">Student's age</label>
+    <input type="text" th:field="*{age}" id="age" autocomplete="off">
+    <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age</div>
+    <br>
+    <label for="email">Student's email</label>
+    <input type="text" th:field="*{email}" id="email" autocomplete="off">
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email</div>
+    <br><hr>
+    <input type="submit" value="Update student!">
+    <hr>
+    </form>
+    <form method="get" th:action="@{/students/{id}(id=${student.getId()})}">
+        <input type="submit" value="Go Back"/>
+    </form>
+</body>
+</html>

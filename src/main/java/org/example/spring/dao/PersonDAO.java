@@ -1,45 +1,30 @@
 package org.example.spring.dao;
 
 import org.example.spring.models.Person;
+import org.example.spring.models.Student;
+import org.example.spring.models.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.preprocessor.IPreProcessor;
 
-import javax.swing.plaf.nimbus.State;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.PushBuilder;
+import java.sql.Array;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.*;
 
 @Component
 public class PersonDAO {
-    private final JdbcTemplate jdbcTemplate;
+
+    public TeacherDAO teacherDAO;
+    public StudentDAO studentDAO;
+    public static int PEOPLE_COUNT = 0;
+
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-    public List<Person> index() {
-        return jdbcTemplate.query("SELECT * FROM Person", new PersonMapper());
+    public PersonDAO(TeacherDAO teacherDAO, StudentDAO studentDAO){
+        this.teacherDAO = teacherDAO;
+        this.studentDAO = studentDAO;
     }
 
-    public Person show(int id) {
-        return jdbcTemplate.query("SELECT * FROM Person where id=?", new Object[]{id},
-                        new PersonMapper())
-                .stream().findAny().orElse(null);
-    }
-
-    public void save(Person person) {
-         jdbcTemplate.update("Insert into Person Values(1, ?, ?, ?)",
-                 person.getAge(), person.getName(), person.getEmail());
-    }
-
-    public void update(int id, Person person) {
-        jdbcTemplate.update("UPDATE Person SET namePerson=?, age=?, email=? where id=?",
-                person.getName(), person.getAge(), person.getEmail(), id);
-    }
-
-    public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
-    }
 }

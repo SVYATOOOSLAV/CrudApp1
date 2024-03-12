@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Remove Student from list</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        div {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        a {
+            display: block;
+            margin-bottom: 5px;
+            padding: 5px;
+            background-color: #1A73E8;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #0F4FCF;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="number"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #1A73E8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0F4FCF;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div th:text="'Teacher: ' + ${teacher.getSurname()} + ' ' + ${teacher.getName()} + ', ' + ${teacher.getAge()}">
+        teacher</div>
+    <hr>
+    Teacher's students:
+    <div th:each="student : ${teacherStudents}">
+        <p th:text="${student.getSurname()} + ' ' + ${student.getName()} + ', ' + ${student.getAge()}">value</p>
+    </div>
+
+    <hr><br>
+
+    All students:
+    <div th:each="student : ${students}">
+        <a th:text="${student.getId()} + ' ' + ${student.getSurname()} + ' '
+                            + ${student.getName()} + ', ' + ${student.getAge()}"
+           th:href="@{/students/{id}(id=${student.getId()})}">value</a>
+    </div>
+
+    <br><hr>
+    <form th:method="PATCH" th:action="@{/teachers/{id}/removeStudent(id=${teacher.getId()})}" th:object="${teacher}">
+        <label for="studID">Enter your student's id: </label>
+        <input type="number" th:field="*{neededIdStudent}" id="studID" autocomplete="off"/>
+        <div style="color:red" th:if="${#fields.hasErrors('neededIdStudent')}" th:errors="*{neededIdStudent}">studentID</div>
+        <br><hr>
+        <input type="submit" value="Remove Student"/>
+        <hr>
+    </form>
+    <form method="get" th:action="@{/teachers/{id}/edit(id=${teacher.getId()})}">
+        <input type="submit" value="Go Back"/>
+    </form>
+</body>
+</html>

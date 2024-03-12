@@ -1,47 +1,41 @@
 package org.example.spring.models;
 
 import jakarta.validation.constraints.*;
-import org.springframework.format.annotation.NumberFormat;
+import org.example.spring.dao.PersonDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
 
-public final class Person {
+public abstract class Person {
     private int id;
-    @NotEmpty(message = "Name should not be empty")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
+    @NotBlank(message = "Empty surname")
+    @Size(min = 0, max = 100, message = "Surname is too big")
+    private String surname;
+    @NotBlank(message = "Empty name")
+    @Size(min = 0, max = 100, message = "Name is too big")
     private String name;
-
-    @NotNull
-    @Min(value = 0, message = "Age should be greater than 0")
+    @Min(value = 0, message = "You can not use the negative number")
+    @Max(value = 80, message = "You can not use the number over 80")
     private int age;
-    @NotEmpty(message = "Email should not be empty")
-    @Email(message = "Email should be valid")
+    @NotBlank(message = "Empty email")
+    @Email(message = "It is not the email")
     private String email;
 
-    public Person() {
-    }
+    public Person(){}
 
-    public Person(int id, String name, int age, String email) {
+    public Person(int id, String surname, String name, int age, String email){
         this.id = id;
+        this.surname = surname;
         this.name = name;
         this.age = age;
         this.email = email;
     }
-
-    public int getAge() {
-        return age;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public void setId(int id) {
@@ -58,6 +52,22 @@ public final class Person {
 
     public String getName() {
         return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
